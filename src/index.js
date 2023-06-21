@@ -25,13 +25,17 @@ import Error from "./components/Error";
 import HostVanDetail, {
   loader as HostValDetailLoader,
 } from "./pages/Host/HostVanDetail";
-
-import "./index.css";
 import HostVanInfo from "./pages/Host/HostVanInfo";
 import HostVanPrice from "./pages/Host/HostVanPrice";
 import HostVanPhotos from "./pages/Host/HostVanPhotos";
 import AddVan from "./pages/Host/AddVan";
 import EditVan, { loader as editVanLoader } from "./pages/Host/EditVan";
+import { Provider } from "react-redux";
+import { store, persistor } from "./store";
+import Cart from "./pages/Cart";
+import { PersistGate } from "redux-persist/integration/react";
+
+import "./index.css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -54,6 +58,7 @@ const router = createBrowserRouter(
           errorElement={<Error />}
         />
       </Route>
+      <Route path="cart" element={<Cart />} />
       <Route path="host">
         <Route
           index
@@ -127,9 +132,13 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 

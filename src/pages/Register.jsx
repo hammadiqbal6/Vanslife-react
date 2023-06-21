@@ -67,7 +67,7 @@ function Register() {
         }) => (
           <>
             <div className="m-auto w-full rounded-md bg-white p-6 shadow-xl lg:max-w-xl">
-              <h1 className="text-center text-3xl font-semibold uppercase text-purple-700">
+              <h1 className="text-center text-3xl font-semibold uppercase text-amber-550">
                 Register
               </h1>
               <div className="mt-6">
@@ -82,7 +82,7 @@ function Register() {
                   <input
                     type="file"
                     accept="image/*"
-                    className="main-input"
+                    className="main-input text-amber-550"
                     name="profileImage"
                     onChange={(e) =>
                       setFieldValue("profileImage", e.target.files[0])
@@ -184,7 +184,7 @@ function Register() {
                     type="submit"
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className="w-full transform rounded-md bg-purple-700 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-purple-600 focus:bg-purple-600 focus:outline-none"
+                    className="w-full transform rounded-md bg-amber-550 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-amber-600 focus:bg-amber-600 focus:outline-none"
                   >
                     {isSubmitting ? "Please wait..." : "Register"}
                   </button>
@@ -199,7 +199,7 @@ function Register() {
                 Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="font-medium text-purple-600 hover:underline"
+                  className="font-medium text-amber-600 hover:underline"
                 >
                   Sign In
                 </Link>

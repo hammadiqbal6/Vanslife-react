@@ -1,8 +1,11 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { logoutUser } from "../utils";
 
 function AuthenticatedNav({ setUser }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleLogout = async (event) => {
     event.preventDefault();
     try {
@@ -10,7 +13,13 @@ function AuthenticatedNav({ setUser }) {
       localStorage.removeItem("user");
       localStorage.removeItem("userToken");
       setUser(null);
-      window.location.reload();
+      const pathname = location.pathname;
+      if (pathname.includes("host")) {
+        navigate({
+          pathname: "/login",
+          search: `?message=You must login first.&&redirectTo=${pathname}`,
+        });
+      }
     } catch (error) {}
   };
 

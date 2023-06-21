@@ -37,7 +37,7 @@ function Vans() {
         onClick={() => handleFilterChange("type", type)}
         className={
           (typeFilter === type ? "!bg-green-800 " : "") +
-          "rounded-xl bg-amber-200 px-6 py-2"
+          "rounded-xl bg-amber-200 p-3 md:px-6 md:py-3"
         }
       >
         {type}
@@ -59,22 +59,22 @@ function Vans() {
           <img
             src={van.image}
             alt=""
-            className="h-80 w-80 rounded-md object-contain"
+            className="mx-auto h-64 w-64 rounded-md object-contain md:mx-0 md:h-80 md:w-80"
           />
-          <div className="my-4">
+          <div className="my-4 flex flex-col items-center md:items-start">
             <h3 className="text-xl font-bold">{van.name}</h3>
             <p>
               ${van.price}
               <span>/day</span>
             </p>
+            <i className="rounded-lg bg-amber-300 px-5 py-2">{van.type}</i>
           </div>
-          <i className="rounded-lg bg-amber-300 px-5 py-2">{van.type}</i>
         </Link>
       </div>
     );
   };
 
-  const vanElements = ({ data: vans }) => {
+  const vanElements = (vans) => {
     const filteredVans = typeFilter
       ? vans.filter((van) => van.type.toLowerCase() === typeFilter)
       : vans;
@@ -84,7 +84,7 @@ function Vans() {
   return (
     <div className="wrapper">
       <h1 className="text-2xl font-bold">Explore our vans Options</h1>
-      <div className="items mt-3 flex gap-x-10">
+      <div className="mt-3 flex justify-center gap-x-4 sm:gap-x-10">
         {filterButtonElements}
         {typeFilter && (
           <button

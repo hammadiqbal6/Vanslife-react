@@ -1,5 +1,5 @@
-import { Formik, useFormikContext } from "formik";
-import React, { useEffect, useRef, useState } from "react";
+import { Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 
 const vanTypes = ["simple", "luxury", "rugged"];
@@ -23,7 +23,7 @@ function VanForm({
 
   useEffect(() => {
     setPreviewUrl(initialValues.image);
-  }, []);
+  }, [initialValues]);
 
   const onKeyDown = (event, submit) => {
     if (event.which === 13) {

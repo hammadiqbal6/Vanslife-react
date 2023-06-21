@@ -35,7 +35,7 @@ Api.interceptors.response.use(
 );
 
 export async function requireAuth(request) {
-  const pathname = new URL(request.url).pathname;
+  const pathname = new URL(request?.url)?.pathname || "/host";
   const isLoggedIn = !!localStorage.getItem("userToken");
 
   if (!isLoggedIn) {

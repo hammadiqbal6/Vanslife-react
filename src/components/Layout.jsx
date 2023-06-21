@@ -7,6 +7,9 @@ function Layout({ children }) {
     <>
       <Header />
       <Outlet>{children}</Outlet>
+      <footer className="bg-black p-4 text-center text-white">
+        All rights reserved lol
+      </footer>
     </>
   );
 }

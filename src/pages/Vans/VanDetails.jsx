@@ -9,6 +9,8 @@ import {
 import { getVans } from "../../utils";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { Oval } from "react-loader-spinner";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../features/CartSlice";
 
 export function Loader({ params }) {
   return defer({ van: getVans(params.id) });
@@ -18,8 +20,9 @@ function VanDetails() {
   const location = useLocation();
   const search = location.state?.search || "";
   const vanPromise = useLoaderData();
+  const dispatch = useDispatch();
 
-  const vanElement = ({ data: van }) => {
+  const vanElement = (van) => {
     return (
       <>
         <Link
@@ -44,7 +47,10 @@ function VanDetails() {
           </div>
           <p className="text-lg font-bold">Description:</p>
           <p>{van.description}</p>
-          <button className="rounded-lg bg-amber-550 py-3 text-center">
+          <button
+            className="rounded-lg bg-amber-550 py-3 text-center"
+            onClick={() => dispatch(addItem(van))}
+          >
             Rent this van
           </button>
         </div>

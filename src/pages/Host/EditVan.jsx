@@ -3,10 +3,9 @@ import { getVans, updateVan } from "../../utils";
 import { Link, defer, useLoaderData, useNavigate } from "react-router-dom";
 import { MdKeyboardBackspace } from "react-icons/md";
 import VanForm from "../../components/VanForm";
-import { useFormikContext } from "formik";
 
 export async function loader(params) {
-  return defer({ vanPromise: (await getVans(params.id)).data });
+  return defer({ vanPromise: await getVans(params.id) });
 }
 
 function EditVan() {

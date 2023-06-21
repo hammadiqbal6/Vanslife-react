@@ -9,20 +9,20 @@ export async function loader(params) {
 }
 
 function HostVanDetail() {
-  const { data: currentVan } = useLoaderData();
+  const currentVan = useLoaderData();
 
   return (
     <section className="wrapper">
       <Link
         to=".."
-        relative="path"
+        relative="route"
         className="flex items-center gap-x-2 text-lg"
       >
         <MdKeyboardBackspace /> Back to all vans
       </Link>
 
       <div className="mt-4 flex flex-col gap-y-4 rounded-lg bg-white p-5">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center gap-4 sm:flex-row">
           <img src={currentVan.image} alt="" className="h-60 w-60 rounded-lg" />
           <div className="flex flex-col gap-y-3">
             <i className="w-fit rounded-lg bg-amber-300 px-5 py-2">
