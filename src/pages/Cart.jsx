@@ -19,7 +19,9 @@ function Cart() {
   if (!cartItems.length) {
     return (
       <div className="wrapper flex flex-col items-center justify-center text-center">
-        <h1 className="text-2xl font-bold text-stone-900">Your cart is empty</h1>
+        <h1 className="text-2xl font-bold text-stone-900">
+          Your cart is empty
+        </h1>
         <p className="mt-2 max-w-md text-stone-600">
           Browse the fleet and rent a van for your next trip.
         </p>

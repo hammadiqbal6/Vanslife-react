@@ -16,7 +16,7 @@ import Register from "./pages/Register";
 import About from "./pages/About";
 import Vans, { loader as VansLoader } from "./pages/Vans/Vans";
 import VanDetails, {
-  Loader as VanDetailsLoader,
+  loader as VanDetailsLoader,
 } from "./pages/Vans/VanDetails";
 import AuthProvider from "./contexts/AuthContext";
 import { requireAuth } from "./utils";

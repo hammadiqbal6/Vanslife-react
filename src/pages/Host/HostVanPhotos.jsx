@@ -6,7 +6,7 @@ function HostVanPhotos() {
   return (
     <img
       src={currentVan.image}
-      alt={`${currentVan.name} photo`}
+      alt={currentVan.name}
       className="h-60 w-60 rounded-lg object-cover"
     />
   );

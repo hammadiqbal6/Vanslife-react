@@ -36,7 +36,11 @@ function Header() {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((open) => !open)}
         >
-          {menuOpen ? <MdClose className="h-6 w-6" /> : <MdMenu className="h-6 w-6" />}
+          {menuOpen ? (
+            <MdClose className="h-6 w-6" />
+          ) : (
+            <MdMenu className="h-6 w-6" />
+          )}
         </button>
 
         <nav

@@ -129,7 +129,7 @@ function Vans() {
           <button
             type="button"
             onClick={() => handleFilterChange("type", null)}
-            className="underline text-stone-600 hover:text-stone-900"
+            className="text-stone-600 underline hover:text-stone-900"
           >
             Clear filters
           </button>

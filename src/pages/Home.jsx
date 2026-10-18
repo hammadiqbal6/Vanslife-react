@@ -8,7 +8,7 @@ function Home() {
         className="absolute inset-0 bg-[url('./assets/images/home-hero.png')] bg-cover bg-center"
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-stone-950/80 via-stone-950/55 to-stone-950/25" />
+      <div className="via-stone-950/55 absolute inset-0 bg-gradient-to-r from-stone-950/80 to-stone-950/25" />
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 py-16 md:px-6">
         <p className="font-display text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">
           #VanLife

@@ -68,7 +68,9 @@ export async function register(userData) {
   }
 
   const users = getUsers();
-  if (users.some((u) => u.email.toLowerCase() === String(email).toLowerCase())) {
+  if (
+    users.some((u) => u.email.toLowerCase() === String(email).toLowerCase())
+  ) {
     throw httpError(400, "Email already registered");
   }
 

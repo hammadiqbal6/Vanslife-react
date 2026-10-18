@@ -189,7 +189,9 @@ function VanForm({
                 onBlur={() => setFieldTouched("description")}
               />
               {errors.description && touched.description && (
-                <div className="text-sm text-rose-600">{errors.description}</div>
+                <div className="text-sm text-rose-600">
+                  {errors.description}
+                </div>
               )}
             </div>
             <button

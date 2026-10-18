@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { addItem } from "../../features/CartSlice";
 import Loader from "../../components/Loader";
 
-export function Loader({ params }) {
+export function loader({ params }) {
   return defer({ van: getVans(params.id) });
 }
 

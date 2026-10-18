@@ -117,7 +117,9 @@ function Register() {
                   onBlur={() => setFieldTouched("first_name")}
                 />
                 {errors.first_name && touched.first_name && (
-                  <div className="text-sm text-rose-600">{errors.first_name}</div>
+                  <div className="text-sm text-rose-600">
+                    {errors.first_name}
+                  </div>
                 )}
               </div>
               <div>
@@ -137,7 +139,9 @@ function Register() {
                   onBlur={() => setFieldTouched("last_name")}
                 />
                 {errors.last_name && touched.last_name && (
-                  <div className="text-sm text-rose-600">{errors.last_name}</div>
+                  <div className="text-sm text-rose-600">
+                    {errors.last_name}
+                  </div>
                 )}
               </div>
               <div>
