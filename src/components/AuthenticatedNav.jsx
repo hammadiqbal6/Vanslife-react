@@ -1,38 +1,40 @@
 import React from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { logoutUser } from "../utils";
 
-function AuthenticatedNav({ setUser }) {
+function AuthenticatedNav({ setUser, onNavigate }) {
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleLogout = async (event) => {
     event.preventDefault();
+    onNavigate?.();
     try {
       await logoutUser();
-      localStorage.removeItem("user");
-      localStorage.removeItem("userToken");
-      setUser(null);
-      const pathname = location.pathname;
-      if (pathname.includes("host")) {
-        navigate({
-          pathname: "/login",
-          search: `?message=You must login first.&&redirectTo=${pathname}`,
-        });
-      }
-    } catch (error) {}
+    } catch {
+      // Clear session even if the mock logout fails
+    }
+    localStorage.removeItem("user");
+    localStorage.removeItem("userToken");
+    setUser(null);
+    if (location.pathname.includes("host")) {
+      navigate({
+        pathname: "/login",
+        search: `?message=${encodeURIComponent(
+          "You must log in first."
+        )}&redirectTo=${encodeURIComponent(location.pathname)}`,
+      });
+    }
   };
 
   return (
-    <>
-      <NavLink
-        to="*"
-        onClick={handleLogout}
-        className={({ isActive }) => (isActive ? "active-link" : "")}
-      >
-        Logout
-      </NavLink>
-    </>
+    <button
+      type="button"
+      onClick={handleLogout}
+      className="text-left text-stone-700 transition-colors hover:text-stone-900"
+    >
+      Logout
+    </button>
   );
 }
 

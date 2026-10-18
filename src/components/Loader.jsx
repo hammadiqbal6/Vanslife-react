@@ -1,17 +1,25 @@
 import React from "react";
 import { Oval } from "react-loader-spinner";
 
-function Loader(props) {
+function Loader() {
   return (
-    <div className="flex flex-col min-h-[60vh] justify-center items-center">
+    <div
+      className="flex min-h-[50vh] flex-col items-center justify-center"
+      role="status"
+      aria-live="polite"
+      aria-label="Loading"
+    >
       <Oval
-        height={100}
-        width={100}
-        strokeWidth={2}
-        visible={true}
+        height={72}
+        width={72}
+        color="#ff8c38"
+        secondaryColor="#fed7aa"
+        strokeWidth={3}
+        visible
         ariaLabel="oval-loading"
-        strokeWidthSecondary={2}
+        strokeWidthSecondary={3}
       />
+      <p className="mt-3 text-sm text-stone-500">Loading…</p>
     </div>
   );
 }
