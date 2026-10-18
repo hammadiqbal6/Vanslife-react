@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+# #VanLife
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A polished React van-rental demo for portfolio use. Browse the fleet, filter by type, rent vans into a cart, and manage host listings with auth-gated CRUD — all running client-side with a seeded mock API (no backend required).
 
-## Available Scripts
+![Home](docs/screenshots/home-desktop.png)
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Browse vans** with type filters (simple / rugged / luxury)
+- **Van detail** pages with rent-to-cart
+- **Shopping cart** with day counts, totals, and checkout (demo)
+- **Auth** — register, login, logout (localStorage session)
+- **Host dashboard** — profile, list / add / edit / delete vans, detail tabs
+- **Empty, loading, and error** states throughout
+- **Responsive** layout (mobile nav + desktop)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- React 18 + Create React App
+- React Router 6 (data routers, loaders, deferred data)
+- Redux Toolkit + redux-persist (cart)
+- Formik + Yup (forms)
+- Tailwind CSS
+- Client-side mock API (`src/api`) with localStorage persistence
 
-### `npm test`
+## Screenshots
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Home | Vans |
+| --- | --- |
+| ![Home](docs/screenshots/home-desktop.png) | ![Vans](docs/screenshots/vans-desktop.png) |
 
-### `npm run build`
+| Van detail | Cart |
+| --- | --- |
+| ![Detail](docs/screenshots/van-detail-desktop.png) | ![Cart](docs/screenshots/cart-desktop.png) |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Host dashboard | Mobile |
+| --- | --- |
+| ![Host](docs/screenshots/host-desktop.png) | ![Mobile](docs/screenshots/home-mobile.png) |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Getting started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+npm start
+```
 
-### `npm run eject`
+Open [http://localhost:3000](http://localhost:3000).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Demo host login
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Field | Value |
+| --- | --- |
+| Email | `host@vanlife.com` |
+| Password | `password123` |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Scripts
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Command | Description |
+| --- | --- |
+| `npm start` | Dev server |
+| `npm run build` | Production build |
+| `npm test` | Jest tests |
+| `npm run lint` | ESLint |
+| `npm run format` | Prettier write |
+| `npm run format:check` | Prettier check |
 
-## Learn More
+## Environment variables
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Copy `.env.example` if you want local overrides. The app uses a **client-side mock API**, so no `REACT_APP_API_URL` is required.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Optional:
 
-### Code Splitting
+```bash
+# Artificial mock API delay in ms (if you wire REACT_APP_API_DELAY into the mock)
+# REACT_APP_API_DELAY=350
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Project structure
 
-### Analyzing the Bundle Size
+```
+src/
+  api/           # Mock store, seed data, API helpers + tests
+  components/    # Layout, header, forms, loader, error
+  contexts/      # Auth context
+  features/      # Redux cart slice
+  pages/         # Home, vans, cart, auth, host CRUD
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Notes
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Seeded vans and the demo host live in `localStorage`. Bumping `SEED_VERSION` in `src/api/seedData.js` refreshes seed data for visitors.
+- Host routes are protected via React Router loaders (`requireAuth`).
+- CI (GitHub Actions) runs lint, format check, build, and tests on `main` and PRs.
