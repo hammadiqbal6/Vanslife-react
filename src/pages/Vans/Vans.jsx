@@ -79,6 +79,7 @@ function Vans() {
             <img
               src={van.image}
               alt={van.name}
+              loading="lazy"
               className="h-56 w-full object-cover transition duration-300 group-hover:scale-[1.02] md:h-64"
             />
             <div className="space-y-2 p-4">

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart, removeItem, setDays } from "../features/CartSlice";
@@ -6,6 +6,7 @@ import { clearCart, removeItem, setDays } from "../features/CartSlice";
 function Cart() {
   const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const [checkoutNote, setCheckoutNote] = useState("");
 
   const total = useMemo(
     () =>
@@ -19,6 +20,14 @@ function Cart() {
   if (!cartItems.length) {
     return (
       <div className="wrapper flex flex-col items-center justify-center text-center">
+        {checkoutNote && (
+          <div
+            className="mb-6 max-w-md rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-900"
+            role="status"
+          >
+            {checkoutNote}
+          </div>
+        )}
         <h1 className="text-2xl font-bold text-stone-900">
           Your cart is empty
         </h1>
@@ -60,6 +69,7 @@ function Cart() {
               <img
                 src={item.image}
                 alt={item.name}
+                loading="lazy"
                 className="h-28 w-28 rounded-lg object-cover"
               />
               <div>
@@ -108,7 +118,9 @@ function Cart() {
           className="rounded-lg bg-amber-550 px-6 py-3 font-semibold text-white transition hover:bg-amber-600"
           onClick={() => {
             dispatch(clearCart());
-            alert("Thanks! This is a demo checkout — no payment was taken.");
+            setCheckoutNote(
+              "Thanks! This is a demo checkout — no payment was taken."
+            );
           }}
         >
           Checkout

@@ -12,7 +12,7 @@ const navClass = ({ isActive }) =>
     : "text-stone-700 transition-colors hover:text-stone-900";
 
 function Header() {
-  const { user, setUser } = useAuth();
+  const { user, setUser, ready } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const cartCount = useSelector((state) => state.cart.length);
 
@@ -72,7 +72,12 @@ function Header() {
               <MdShoppingCart className="h-6 w-6" />
             </NavLink>
           </div>
-          {!user ? (
+          {!ready ? (
+            <span
+              className="inline-block h-8 w-24 animate-pulse rounded-md bg-stone-200/80"
+              aria-hidden="true"
+            />
+          ) : !user ? (
             <GuestNav onNavigate={closeMenu} />
           ) : (
             <AuthenticatedNav setUser={setUser} onNavigate={closeMenu} />
