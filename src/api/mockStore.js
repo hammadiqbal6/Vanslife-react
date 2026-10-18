@@ -1,7 +1,8 @@
-import { seedUsers, seedVans } from "./seedData";
+import { SEED_VERSION, seedUsers, seedVans } from "./seedData";
 
 const USERS_KEY = "vanlife_users";
 const VANS_KEY = "vanlife_vans";
+const VERSION_KEY = "vanlife_seed_version";
 const TOKEN_PREFIX = "vanlife_token_";
 
 function read(key, fallback) {
@@ -19,6 +20,13 @@ function write(key, value) {
 }
 
 export function ensureSeeded() {
+  const currentVersion = localStorage.getItem(VERSION_KEY);
+  if (currentVersion !== String(SEED_VERSION)) {
+    write(USERS_KEY, seedUsers);
+    write(VANS_KEY, seedVans);
+    localStorage.setItem(VERSION_KEY, String(SEED_VERSION));
+    return;
+  }
   if (!localStorage.getItem(USERS_KEY)) {
     write(USERS_KEY, seedUsers);
   }

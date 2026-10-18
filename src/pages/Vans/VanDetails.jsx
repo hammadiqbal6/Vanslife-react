@@ -40,11 +40,11 @@ function VanDetails() {
         >
           <MdKeyboardBackspace /> Back to {location.state?.type || "all"} vans
         </Link>
-        <div className="mt-6 grid gap-8 lg:grid-cols-2">
+        <div className="mt-6 grid items-start gap-8 md:grid-cols-2">
           <img
             src={van.image}
             alt={van.name}
-            className="max-h-[32rem] w-full rounded-xl object-cover"
+            className="aspect-[4/3] w-full rounded-xl object-cover"
           />
           <div className="flex flex-col gap-y-4">
             <span
