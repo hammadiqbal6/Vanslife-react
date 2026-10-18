@@ -34,6 +34,8 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./store";
 import Cart from "./pages/Cart";
 import { PersistGate } from "redux-persist/integration/react";
+import Loader from "./components/Loader";
+import RedirectIfAuthed from "./components/RedirectIfAuthed";
 
 import "./index.css";
 
@@ -41,8 +43,22 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
+      <Route
+        path="login"
+        element={
+          <RedirectIfAuthed>
+            <Login />
+          </RedirectIfAuthed>
+        }
+      />
+      <Route
+        path="register"
+        element={
+          <RedirectIfAuthed>
+            <Register />
+          </RedirectIfAuthed>
+        }
+      />
       <Route path="about" element={<About />} />
       <Route path="vans">
         <Route
@@ -133,7 +149,7 @@ const router = createBrowserRouter(
 function App() {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
+      <PersistGate loading={<Loader />} persistor={persistor}>
         <AuthProvider>
           <RouterProvider router={router} />
         </AuthProvider>
