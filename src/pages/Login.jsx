@@ -4,6 +4,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useAuth } from "../contexts/AuthContext";
 import { loginUser } from "../utils";
+import { DEMO_PASSWORD } from "../api/seedData";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -24,29 +25,23 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("userToken", data.token);
       setUser(data.user);
-      const redirect = searchParams.get("redirectTo") || "/";
+      const redirect = searchParams.get("redirectTo") || "/host";
       navigate(redirect, { replace: true });
     } catch (error) {
-      setFormError(error.response.data.error);
+      setFormError(error?.response?.data?.error || "Unable to log in.");
     } finally {
       setSubmitting(false);
     }
   };
 
   useEffect(() => {
-    setFormError(searchParams.get("message"));
+    setFormError(searchParams.get("message") || "");
   }, [searchParams]);
 
-  const onKeyDown = (event, submit) => {
-    if (event.which === 13) {
-      submit();
-    }
-  };
-
   return (
-    <div className="wrapper flex flex-col items-center justify-center overflow-hidden">
+    <div className="wrapper flex flex-col items-center justify-center">
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: "host@vanlife.com", password: DEMO_PASSWORD }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
@@ -57,91 +52,86 @@ function Login() {
           isSubmitting,
           handleSubmit,
           touched,
+          values,
         }) => (
-          <>
-            <div className="m-auto w-full rounded-md bg-white p-6 shadow-xl lg:max-w-xl">
-              <h1 className="text-center text-3xl font-semibold uppercase text-amber-550">
-                Sign in
-              </h1>
-              <div className="mt-6">
-                {formError && (
-                  <div className="mb-2 text-red-600">{formError}</div>
-                )}
-                <div className="mb-2">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-semibold text-gray-800"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="main-input"
-                    name="email"
-                    onChange={(e) => {
-                      setFieldValue("email", e.target.value);
-                      setFormError("");
-                    }}
-                    onKeyDown={(e) => {
-                      onKeyDown(e, handleSubmit);
-                    }}
-                    onBlur={() => setFieldTouched("email")}
-                  />
+          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-sm">
+            <h1 className="text-center text-3xl font-semibold uppercase text-amber-550">
+              Sign in
+            </h1>
+            <p className="mt-2 text-center text-sm text-stone-500">
+              Demo host: host@vanlife.com / {DEMO_PASSWORD}
+            </p>
+            <div className="mt-6 space-y-3">
+              {formError && (
+                <div className="rounded-md bg-rose-50 px-3 py-2 text-rose-700">
+                  {formError}
                 </div>
-                {errors.email && touched.email && (
-                  <div className="text-red-600">{errors.email}</div>
-                )}
-                <div className="mb-2">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-semibold text-gray-800"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="main-input"
-                    name="password"
-                    onChange={(e) => {
-                      setFieldValue("password", e.target.value);
-                      setFormError("");
-                    }}
-                    onKeyDown={(e) => {
-                      onKeyDown(e, handleSubmit);
-                    }}
-                    onBlur={() => setFieldTouched("password")}
-                  />
-                </div>
-                {errors.password && touched.password && (
-                  <div className="text-red-600">{errors.password}</div>
-                )}
-                <div className="mt-6">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    onClick={handleSubmit}
-                    className="hover:bg-amber500 w-full transform rounded-md bg-amber-550 px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:bg-amber-550 focus:outline-none"
-                  >
-                    {isSubmitting ? "Please wait..." : "Login"}
-                  </button>
-                </div>
-              </div>
-              <div className="relative mt-6 flex w-full items-center justify-center border border-t">
-                <div className="absolute bg-white px-5">Or</div>
-              </div>
-
-              <p className="mt-8 text-center text-xs font-light text-gray-700">
-                {" "}
-                Don't have an account?{" "}
-                <Link
-                  to="/register"
-                  className="font-medium text-amber-550 hover:underline"
+              )}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-semibold text-stone-800"
                 >
-                  Sign up
-                </Link>
-              </p>
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  className="main-input"
+                  name="email"
+                  value={values.email}
+                  onChange={(e) => {
+                    setFieldValue("email", e.target.value);
+                    setFormError("");
+                  }}
+                  onBlur={() => setFieldTouched("email")}
+                />
+                {errors.email && touched.email && (
+                  <div className="text-sm text-rose-600">{errors.email}</div>
+                )}
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-semibold text-stone-800"
+                >
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  className="main-input"
+                  name="password"
+                  value={values.password}
+                  onChange={(e) => {
+                    setFieldValue("password", e.target.value);
+                    setFormError("");
+                  }}
+                  onBlur={() => setFieldTouched("password")}
+                />
+                {errors.password && touched.password && (
+                  <div className="text-sm text-rose-600">{errors.password}</div>
+                )}
+              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                onClick={handleSubmit}
+                className="w-full rounded-lg bg-amber-550 px-4 py-2.5 font-medium tracking-wide text-white transition hover:bg-amber-600 disabled:opacity-70"
+              >
+                {isSubmitting ? "Please wait…" : "Login"}
+              </button>
             </div>
-          </>
+            <p className="mt-8 text-center text-sm text-stone-600">
+              Don&apos;t have an account?{" "}
+              <Link
+                to="/register"
+                className="font-medium text-amber-550 hover:underline"
+              >
+                Sign up
+              </Link>
+            </p>
+          </div>
         )}
       </Formik>
     </div>

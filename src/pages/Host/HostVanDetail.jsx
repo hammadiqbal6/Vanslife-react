@@ -8,32 +8,51 @@ export async function loader(params) {
   return response.data;
 }
 
+const typeStyles = {
+  simple: "bg-orange-500 text-white",
+  rugged: "bg-emerald-800 text-white",
+  luxury: "bg-stone-900 text-white",
+};
+
 function HostVanDetail() {
   const currentVan = useLoaderData();
 
   return (
-    <section className="wrapper">
+    <section className="wrapper mx-auto max-w-4xl">
       <Link
         to=".."
-        relative="route"
-        className="flex items-center gap-x-2 text-lg"
+        relative="path"
+        className="inline-flex items-center gap-x-2 text-stone-700 hover:text-stone-900"
       >
         <MdKeyboardBackspace /> Back to all vans
       </Link>
 
-      <div className="mt-4 flex flex-col gap-y-4 rounded-lg bg-white p-5">
+      <div className="mt-4 flex flex-col gap-y-4 rounded-xl bg-white p-5 shadow-sm">
         <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <img src={currentVan.image} alt="" className="h-60 w-60 rounded-lg" />
-          <div className="flex flex-col gap-y-3">
-            <i className="w-fit rounded-lg bg-amber-300 px-5 py-2">
+          <img
+            src={currentVan.image}
+            alt={currentVan.name}
+            className="h-48 w-48 rounded-lg object-cover sm:h-56 sm:w-56"
+          />
+          <div className="flex flex-col gap-y-3 text-center sm:text-left">
+            <span
+              className={`mx-auto w-fit rounded-md px-4 py-1.5 text-sm capitalize sm:mx-0 ${
+                typeStyles[currentVan.type] || "bg-amber-200"
+              }`}
+            >
               {currentVan.type}
-            </i>
-            <h3 className="text-lg font-bold">{currentVan.name}</h3>
-            <h4>${currentVan.price}/day</h4>
+            </span>
+            <h1 className="text-xl font-bold text-stone-900 md:text-2xl">
+              {currentVan.name}
+            </h1>
+            <p className="text-stone-700">
+              ${currentVan.price}
+              <span className="text-stone-500">/day</span>
+            </p>
           </div>
         </div>
 
-        <nav className="flex gap-10">
+        <nav className="flex flex-wrap gap-6 border-b border-stone-100 pb-3">
           <NavLink
             to="."
             end

@@ -16,14 +16,14 @@ import Register from "./pages/Register";
 import About from "./pages/About";
 import Vans, { loader as VansLoader } from "./pages/Vans/Vans";
 import VanDetails, {
-  Loader as VanDetailsLoader,
+  loader as VanDetailsLoader,
 } from "./pages/Vans/VanDetails";
 import AuthProvider from "./contexts/AuthContext";
 import { requireAuth } from "./utils";
 import HostVans, { loader as HostVansLoader } from "./pages/Host/HostVans";
 import Error from "./components/Error";
 import HostVanDetail, {
-  loader as HostValDetailLoader,
+  loader as HostVanDetailLoader,
 } from "./pages/Host/HostVanDetail";
 import HostVanInfo from "./pages/Host/HostVanInfo";
 import HostVanPrice from "./pages/Host/HostVanPrice";
@@ -92,15 +92,15 @@ const router = createBrowserRouter(
           element={<HostVanDetail />}
           loader={async ({ request, params }) => {
             await requireAuth(request);
-            return HostValDetailLoader(params);
+            return HostVanDetailLoader(params);
           }}
           errorElement={<Error />}
         >
           <Route
             index
             element={<HostVanInfo />}
-            loader={({ request }) => {
-              requireAuth(request);
+            loader={async ({ request }) => {
+              await requireAuth(request);
               return null;
             }}
             errorElement={<Error />}
@@ -108,8 +108,8 @@ const router = createBrowserRouter(
           <Route
             path="pricing"
             element={<HostVanPrice />}
-            loader={({ request }) => {
-              requireAuth(request);
+            loader={async ({ request }) => {
+              await requireAuth(request);
               return null;
             }}
             errorElement={<Error />}
@@ -117,8 +117,8 @@ const router = createBrowserRouter(
           <Route
             path="photos"
             element={<HostVanPhotos />}
-            loader={({ request }) => {
-              requireAuth(request);
+            loader={async ({ request }) => {
+              await requireAuth(request);
               return null;
             }}
             errorElement={<Error />}

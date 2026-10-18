@@ -22,10 +22,6 @@ const store = configureStore({
     }),
 });
 
-const unSubscribe = store.subscribe(() =>
-  console.log("new state", store.getState())
-);
-
 const persistor = persistStore(store);
 
 export { store, persistor };

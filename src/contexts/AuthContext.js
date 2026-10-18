@@ -3,13 +3,22 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(null);
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user")));
+    try {
+      const stored = localStorage.getItem("user");
+      setUser(stored ? JSON.parse(stored) : null);
+    } catch {
+      setUser(null);
+    } finally {
+      setReady(true);
+    }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, ready }}>
       {children}
     </AuthContext.Provider>
   );

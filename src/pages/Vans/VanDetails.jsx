@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import {
   Await,
   Link,
@@ -8,74 +8,99 @@ import {
 } from "react-router-dom";
 import { getVans } from "../../utils";
 import { MdKeyboardBackspace } from "react-icons/md";
-import { Oval } from "react-loader-spinner";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../features/CartSlice";
+import Loader from "../../components/Loader";
 
-export function Loader({ params }) {
+export function loader({ params }) {
   return defer({ van: getVans(params.id) });
 }
+
+const typeStyles = {
+  simple: "bg-orange-500 text-white",
+  rugged: "bg-emerald-800 text-white",
+  luxury: "bg-stone-900 text-white",
+};
 
 function VanDetails() {
   const location = useLocation();
   const search = location.state?.search || "";
   const vanPromise = useLoaderData();
   const dispatch = useDispatch();
+  const [added, setAdded] = useState(false);
 
-  const vanElement = (van) => {
+  const vanElement = (response) => {
+    const van = response.data;
     return (
       <>
         <Link
           to={`..${search}`}
           relative="path"
-          className="flex items-center gap-x-2 text-lg"
+          className="inline-flex items-center gap-x-2 text-stone-700 hover:text-stone-900"
         >
           <MdKeyboardBackspace /> Back to {location.state?.type || "all"} vans
         </Link>
-        <div className="mt-4 flex flex-col gap-y-4">
+        <div className="mt-6 grid gap-8 lg:grid-cols-2">
           <img
             src={van.image}
-            alt=""
-            className="max-h-128 w-full object-contain"
+            alt={van.name}
+            className="max-h-[32rem] w-full rounded-xl object-cover"
           />
-          <i className="w-fit rounded-lg bg-amber-300 px-5 py-2">{van.type}</i>
-          <div className="flex flex-col gap-y-2">
-            <h2 className="text-lg font-bold">{van.name}</h2>
-            <p className="van-price">
-              <span>${van.price}</span>/day
+          <div className="flex flex-col gap-y-4">
+            <span
+              className={`w-fit rounded-md px-4 py-1.5 text-sm capitalize ${
+                typeStyles[van.type] || "bg-amber-200"
+              }`}
+            >
+              {van.type}
+            </span>
+            <h1 className="font-display text-3xl font-bold text-stone-900">
+              {van.name}
+            </h1>
+            <p className="text-xl font-semibold text-stone-900">
+              ${van.price}
+              <span className="text-base font-normal text-stone-500">/day</span>
             </p>
+            <div>
+              <h2 className="font-semibold text-stone-900">Description</h2>
+              <p className="mt-2 leading-relaxed text-stone-700">
+                {van.description}
+              </p>
+            </div>
+            <button
+              type="button"
+              className="rounded-lg bg-amber-550 py-3 text-center font-semibold text-white transition hover:bg-amber-600"
+              onClick={() => {
+                dispatch(addItem(van));
+                setAdded(true);
+                setTimeout(() => setAdded(false), 2000);
+              }}
+            >
+              {added ? "Added to cart!" : "Rent this van"}
+            </button>
+            {added && (
+              <Link to="/cart" className="text-center text-amber-550 underline">
+                View cart
+              </Link>
+            )}
           </div>
-          <p className="text-lg font-bold">Description:</p>
-          <p>{van.description}</p>
-          <button
-            className="rounded-lg bg-amber-550 py-3 text-center"
-            onClick={() => dispatch(addItem(van))}
-          >
-            Rent this van
-          </button>
         </div>
       </>
     );
   };
 
   return (
-    <div className="wrapper">
-      <Suspense
-        fallback={
-          <Oval
-            height={100}
-            width={100}
-            strokeWidth={2}
-            visible={true}
-            ariaLabel="oval-loading"
-            strokeWidthSecondary={2}
-          />
-        }
-      >
-        <Await resolve={vanPromise.van}>
-          {(van) => {
-            return vanElement(van.data);
-          }}
+    <div className="wrapper mx-auto max-w-6xl">
+      <Suspense fallback={<Loader />}>
+        <Await
+          resolve={vanPromise.van}
+          errorElement={
+            <div className="rounded-xl bg-white p-6 text-rose-700 shadow-sm">
+              Could not load this van.
+            </div>
+          }
+        >
+          {vanElement}
         </Await>
       </Suspense>
     </div>
